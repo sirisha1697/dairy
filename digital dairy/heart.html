@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crystal Heart Typing</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+    body {
+      margin: 0;
+      background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    .center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Great Vibes', cursive;
+      font-size: 48px;
+      color: #ffb6c1;
+      white-space: nowrap;
+      text-shadow: 0 0 12px #fff, 0 0 18px #ff69b4;
+    }
+
+    .hidden {
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="heartCanvas"></canvas>
+  <div class="center-text" id="loveText"></div>
+
+  <script>
+    // HEART ANIMATION
+    const canvas = document.getElementById('heartCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    function heartShape(t) {
+      let x = 16 * Math.pow(Math.sin(t), 3);
+      let y = - (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+      return {x, y};
+    }
+
+    for (let i = 0; i < 500; i++) {
+      let t = Math.random() * 2 * Math.PI;
+      let pos = heartShape(t);
+      particles.push({
+        x: canvas.width / 2 + pos.x * 15,
+        y: canvas.height / 2 + pos.y * 15,
+        radius: Math.random() * 2 + 1,
+        color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+        angle: Math.random() * 2 * Math.PI,
+        speed: Math.random() * 0.5 + 0.2
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.fillStyle = p.color;
+        ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+        ctx.fill();
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed;
+      });
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // TYPING ANIMATION
+    const text = "Love you Ma";
+    const target = document.getElementById('loveText');
+    let index = 0;
+
+    function typeText() {
+      if (index < text.length) {
+        target.innerHTML += text.charAt(index);
+        index++;
+        setTimeout(typeText, 200); // Delay between letters
+      }
+    }
+
+    setTimeout(typeText, 1000); // Delay before typing starts
+  </script>
+</body>
+</html>

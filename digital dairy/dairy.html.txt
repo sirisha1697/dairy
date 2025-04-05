@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Diary</title>
+    <link rel="stylesheet" href="dairy.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>📔 My Digital Diary</h1>
+        <!-- Form to Add Entries -->
+        <div class="entry-form">
+            <input type="date" id="entry-date" required>
+            <textarea id="entry-content" rows="5" placeholder="Write your thoughts here..." required></textarea>
+            <button onclick="addEntry()">Add Entry</button>
+        </div>
+
+        <!-- Display Entries Here -->
+        <div id="entries-container">
+            <h2>📅 Diary Entries</h2>
+            <div id="entries"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
